@@ -25,24 +25,48 @@ function App() {
 }
 
 function Accordian({ data }) {
+  const [curOpen, setCurOpen] = useState(null);
   return (
     <div className="accordian">
-      {data.map((item, i) => <AccordianItem num={i} title={item.title} text={item.text} />)}
+      {data.map((item, i) => {
+        return <AccordianItem
+          num={i}
+          title={item.title}
+          key={item.title}
+          curOpen={curOpen}
+          onOpen={setCurOpen}> {item.text}
+        </AccordianItem>
+      })}
+      <AccordianItem
+        num={21}
+        title="Rules For a Devotee"
+        key="Rules For a Devotee"
+        curOpen={curOpen}
+        onOpen={setCurOpen}>
+        <p>Allows Shree Krishn Devotess to: </p>
+        <ul>
+          <li>Reading Shrimad Bhagwat Geeta</li>
+          <li>Pray in temples</li>
+          <li>Perform proper rituals</li>
+        </ul>
+      </AccordianItem>
     </div>
   )
 }
 
-function AccordianItem({ num, title, text }) {
-  const [isOpen, setIsOpen] = useState(false);
-  function handleToggle() {
-    setIsOpen(isOpen => !isOpen)
+function AccordianItem({ num, title, curOpen, onOpen, children }) {
+  const isOpen = curOpen === num;
+  const isClose = isOpen;
+  function handleToggle(e) {
+    if(!isClose) onOpen(num);
+    else onOpen(false)
   }
   return (
-    <div className={`item ${isOpen ? "open" : ""}`} onClick={handleToggle}>
+    <div className={`item ${isOpen ? "open" : ""}`} onClick={(e) => handleToggle(e)}>
       <p className="num">{num < 9 ? `0${num + 1}` : num + 1}</p>
       <p className="title">{title}</p>
       <p className="icon">{isOpen ? '-' : '+'}</p>
-      {isOpen && <div className="content-box">{text}</div>}
+      {isOpen && <div className="content-box">{children}</div>}
 
     </div>
   )
