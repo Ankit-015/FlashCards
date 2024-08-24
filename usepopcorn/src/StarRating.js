@@ -27,7 +27,7 @@ export default function StarRating({
   const [tempRating, setTempRating] = useState(defaultRating);
 
   function handleRating(rating) {
-    console.log("rating");
+    // console.log("rating");
     setRating(rating);
     onSetRating && onSetRating(rating);
   }
@@ -124,5 +124,3 @@ EMPTY STAR
 
 
 */
-
-
